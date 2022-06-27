@@ -11233,41 +11233,39 @@ function () {
           case 0:
             _context.prev = 0;
             url = type === 'password' ? 'http://localhost:3000/api/v1/users/updateMyPassword' : 'http://localhost:3000/api/v1/users/updateMe';
-            console.log(url);
-            console.log(data);
-            console.log(type);
-            _context.next = 7;
+            _context.next = 4;
             return (0, _axios.default)({
               method: 'PATCH',
               url: url,
               data: data
             });
 
-          case 7:
+          case 4:
             res = _context.sent;
 
             if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " updated successfully!")); //reload
-              // window.setTimeout(() => {
-              //   location.reload();
-              // }, 1500);
+              (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " updated successfully!"));
+              reload;
+              window.setTimeout(function () {
+                location.reload();
+              }, 1500);
             }
 
             console.log(res.data);
-            _context.next = 15;
+            _context.next = 12;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 15:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 9]]);
   }));
 
   return function updateSettings(_x, _x2) {
@@ -11578,13 +11576,17 @@ if (logOutBtn) logOutBtn.addEventListener('click', _login.logout); //On UpdateMe
 if (userDataForm) userDataForm.addEventListener('submit', function (e) {
   e.preventDefault();
   userDataSaveBtn.textContent = 'Updating...'; //update Btn Text
+  //use form to upload img
 
-  var name = document.getElementById('name').value;
-  var email = document.getElementById('email').value;
-  (0, _updateSettings.updateSettings)({
-    name: name,
-    email: email
-  }, 'data');
+  var form = new FormData();
+  form.append('name', document.getElementById('name').value);
+  form.append('email', document.getElementById('email').value);
+  form.append('photo', document.getElementById('photo').files[0]); //only one
+
+  (0, _updateSettings.updateSettings)(form, 'data'); // const name = document.getElementById('name').value;
+  // const email = document.getElementById('email').value;
+  // updateSettings({ name, email }, 'data');
+
   userDataSaveBtn.textContent = 'Save settings'; //update Btn Text
 });
 if (userPasswordForm) userPasswordForm.addEventListener('submit',
